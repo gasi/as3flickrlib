@@ -115,7 +115,7 @@ package com.adobe.webapis.flickr.events {
 		public static const PEOPLE_GET_PUBLIC_GROUPS:String = "peopleGetPublicGroups";
 		
 		/** Constant for the peopleetPublicPhotos event type. */
-		public static const PEOPLE_GET_PUBLIC_PHOTOS:String = "peopleetPublicPhotos";
+		public static const PEOPLE_GET_PUBLIC_PHOTOS:String = "peopleGetPublicPhotos";
 		
 		/** Constant for the peopleGetUploadStatus event type. */
 		public static const PEOPLE_GET_UPLOAD_STATUS:String = "peopleGetUploadStatus";
