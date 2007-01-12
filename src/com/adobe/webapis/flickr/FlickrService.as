@@ -50,12 +50,12 @@ package com.adobe.webapis.flickr {
 		/**
 		 * The REST endpoint where we can talk with Flickr service
 		 */
-		public static const END_POINT:String = "http://flickr.com/services/rest/?";
+		public static const END_POINT:String = "http://api.flickr.com/services/rest/?";
 		
 		/**
 		 * The endpoint where we go for authentication
 		 */
-		public static const AUTH_END_POINT:String = "http://flickr.com/services/auth/?";
+		public static const AUTH_END_POINT:String = "http://api.flickr.com/services/auth/?";
 		
 		/** 
 		 * Store the API key that gives developers access to the Flickr service 
