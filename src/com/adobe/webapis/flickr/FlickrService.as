@@ -89,6 +89,7 @@ package com.adobe.webapis.flickr {
 		private var _people:People;
 		private var _photos:Photos;
 		private var _photosets:PhotoSets;
+		private var _interestingness:Interestingness;
 		private var _tags:Tags;
 		private var _test:Test;
 		private var _urls:Urls;
@@ -106,6 +107,7 @@ package com.adobe.webapis.flickr {
 			_people = new People( this );
 			_photos = new Photos( this );
 			_photosets = new PhotoSets( this );
+			_interestingness = new Interestingness( this );
 			_tags = new Tags( this );
 			_test = new Test( this );
 			_urls = new Urls( this );
@@ -339,6 +341,17 @@ package com.adobe.webapis.flickr {
 			return _urls;	
 		}
 		
+		/**
+		 * Provide read-only access to the Interestingness method group in the Flickr API
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 8.5
+		 * @tiptext
+		 */
+		public function get interestingness():Interestingness {
+			return _interestingness;	
+		}
+
 		/**
 		 * Returns the URL to use for authentication so the developer
 		 * doesn't have to build it by hand.

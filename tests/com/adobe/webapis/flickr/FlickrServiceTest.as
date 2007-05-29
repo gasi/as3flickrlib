@@ -55,7 +55,7 @@ package com.adobe.webapis.flickr {
 		*/		
 		public static var API_KEY:String = "<APP KEY>";
 		public static var SECRET:String = "<SHARED SECRET>";
-			
+		
 	    public function FlickrServiceTest( methodName:String ) {
 			super( methodName );
         }
@@ -239,6 +239,12 @@ package com.adobe.webapis.flickr {
 			ts.addTest( Test( new FlickrServiceTest("testUrlsLookupGroup") ) );
 			ts.addTest( Test( new FlickrServiceTest("testUrlsLookupUser") ) );
 			
+			//*********************************************************
+			// Test the "Interestingness" method group
+			//*********************************************************
+			ts.addTest( Test( new FlickrServiceTest("testInterestingnessGetList") ) );
+			ts.addTest( Test( new FlickrServiceTest("testInterestingnessGetListWithDate") ) );
+
 			return ts;
 		}
 		
@@ -251,8 +257,7 @@ package com.adobe.webapis.flickr {
 		public function testSecret():void {
 			var service:FlickrService = new FlickrService( API_KEY );
 			service.secret = SECRET;
-			
-			assertTrue( "service.secret == SECRET", service.secret = SECRET );
+			assertTrue( "service.secret == SECRET", service.secret == SECRET );
 		}
 		
 		//**************************************************************
@@ -443,7 +448,7 @@ package com.adobe.webapis.flickr {
 			var service:FlickrService = new FlickrService( API_KEY );
 			service.addEventListener( FlickrResultEvent.PEOPLE_GET_INFO,
 									  addAsync( onPeopleGetInfo, CALL_TIMEOUT ) );
-			service.people.getInfo( "82511024@N00" );
+			service.people.getInfo( "28074258@N00" );
 		}
 		
 		private function onPeopleGetInfo( event:FlickrResultEvent ):void {
@@ -676,7 +681,8 @@ package com.adobe.webapis.flickr {
 			assertTrue( "licenses length", licenses.length > 0 );
 			assertTrue( "licenses[0].id", licenses[0].id >= 0 );
 			assertTrue( "licenses[0].name", licenses[0].name.length > 0 );
-			assertTrue( "licenses[0].url", licenses[0].url.length > 0 );
+			assertTrue( "licenses[0].url", licenses[0].url.length == 0 );
+			assertTrue( "licenses[1].url", licenses[1].url.length > 0 );
 		}
 		
 		//*********************************************************
@@ -986,7 +992,38 @@ package com.adobe.webapis.flickr {
 			assertTrue( "user.nsid", user.nsid.length > 0 );
 		}
 		
+		//**************************************************************
+		//
+		// Tests for the "Interestingness" Method Group
+		//
+		//**************************************************************
 		
+		public function testInterestingnessGetList():void {
+			var service:FlickrService = new FlickrService( API_KEY );
+			service.addEventListener( FlickrResultEvent.INTERESTINGNESS_GET_LIST, 
+									  addAsync( onInterestingnessGetList, CALL_TIMEOUT ) );
+			service.interestingness.getList();
+		}
+
+		public function testInterestingnessGetListWithDate():void {
+			var service:FlickrService = new FlickrService( API_KEY );
+			service.addEventListener( FlickrResultEvent.INTERESTINGNESS_GET_LIST, 
+									  addAsync( onInterestingnessGetList, CALL_TIMEOUT ) );
+			var exploreDate:Date = new Date();
+			var msPerDay:int = 1000 * 60 * 60 * 24;
+			exploreDate.setTime(exploreDate.getTime() - msPerDay);
+			service.interestingness.getList(exploreDate);
+		}
+		
+		private function onInterestingnessGetList( event:FlickrResultEvent ):void {
+			var photoList:PagedPhotoList = event.data.photos;
+			
+			assertTrue( "page == 1", photoList.page == 1 );
+			assertTrue( "perPage == 100", photoList.perPage == 100 );
+			assertTrue( "photo length > 0", photoList.photos.length > 0 );
+			assertTrue( "secret is present on a photo", photoList.photos[0].secret.length > 0 );
+			assertTrue( "photo total > 0", photoList.total > 0 );
+		}
 	}
 		
 }

@@ -102,6 +102,9 @@ package com.adobe.webapis.flickr.events {
 		/** Constant for the groupsPoolRemove event type. */
 		public static const GROUPS_POOLS_REMOVE:String = "groupsPoolsRemove";
 		
+		/** Constant for the interestingnessGetList event type. */
+		public static const INTERESTINGNESS_GET_LIST:String = "interestingnessGetList";
+		
 		/** Constant for the peopleFindByEmail event type. */
 		public static const PEOPLE_FIND_BY_EMAIL:String = "peopleFindByEmail";
 		
