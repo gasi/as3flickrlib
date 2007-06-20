@@ -41,6 +41,10 @@ package com.adobe.webapis.flickr.methodgroups {
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.FileReference;
+	import flash.net.URLRequest;
+	import flash.net.URLVariables;
+	import com.adobe.utils.StringUtil;
+	import flash.net.URLRequestMethod;
 
 	/**
 	 * Broadcast as a result of the checkTickets method being called
@@ -77,7 +81,7 @@ package com.adobe.webapis.flickr.methodgroups {
 		/**
 		 * The destination for photo uploads
 		 */
-		private static const UPLOAD_DEST:String = "http://www.flickr.com/services/upload/?";
+		private static const UPLOAD_DEST:String = "http://www.flickr.com/services/upload/";
 	
 		/**
 		 * Construct a new Upload "method group" class
@@ -149,40 +153,58 @@ package com.adobe.webapis.flickr.methodgroups {
 		 * @playerversion Flash 8.5
 		 * @tiptext
 		 */
-//	
-//		Upload isn't supported yet - need some player modifications first.
-//
-//		public function upload( fileReference:FileReference, title:String = "",
-//								description:String = "", tags:String = "", is_public:Boolean = false,
-//								is_friend:Boolean = false, is_family:Boolean = false):void {
-//			
-//			
-//			// The upload method requires signing, so go through
-//			// the signature process
-//			var sig:String = _service.secret;
-//			sig += "api_key" + _service.api_key;
-//			sig += "auth_token" + _service.token;
-//			sig += "description" + description;
-//			sig += "is_family" + ( is_family ? 1 : 0 );
-//			sig += "is_friend" + ( is_friend ? 1 : 0 );
-//			sig += "is_public" + ( is_public ? 1 : 0 );
-//			sig += "tags" + tags;
-//			sig += "title" + title;
-//			
-//			var upload_url:String = UPLOAD_DEST;
-//			upload_url += "api_key=" + _service.api_key;
-//			upload_url += "&auth_token=" + _service.token;
-//			upload_url += "&description=" + description;
-//			upload_url += "&is_family=" + ( is_family ? 1 : 0 );
-//			upload_url += "&is_friend=" + ( is_friend ? 1 : 0 );
-//			upload_url += "&is_public=" + ( is_public ? 1 : 0 );
-//			upload_url += "&tags=" + tags;
-//			upload_url += "&title=" + title;
-//			upload_url += "&api_sig=" + MD5.hash( sig );
-//			
-//			fileReference.upload( upload_url );
-//			
-//		}
+	
+		//Upload isn't supported yet - need some player modifications first.
+
+	public function upload( fileReference:FileReference, 
+								title:String = "",
+								description:String = "",
+								tags:String = "",
+								is_public:Boolean = false,
+								is_friend:Boolean = false,
+								is_family:Boolean = false ) : void {
+			// The upload method requires signing, so go through
+			// the signature process
+
+			// [OvD] Flash sends both the 'Filename' and the 'Upload' values
+			// in the body of the POST request, so these are needed for the signature
+			// as well, otherwise Flickr returns a error code 96 'invalid signature'
+			var sig:String = StringUtil.trim( _service.secret );
+			sig += "Filename" + fileReference.name;
+			sig += "UploadSubmit Query"; //				
+			sig += "api_key" + StringUtil.trim( _service.api_key );
+			sig += "auth_token" + StringUtil.trim( _service.token );		
+			
+			// [OvD] optional values, the order is irrelevant
+			if ( description != "" ) sig += "description" + description;
+			if ( is_family ) sig += "is_family" + ( is_family ? 1 : 0 );
+			if ( is_friend ) sig += "is_friend" + ( is_friend ? 1 : 0 );
+			if ( is_public ) sig += "is_public" + ( is_public ? 1 : 0 );
+			if ( tags != "" ) sig += "tags" + tags;
+			if ( title != "" ) sig += "title" + title;
+
+			var vars:URLVariables = new URLVariables();
+			vars.auth_token = StringUtil.trim( _service.token );
+			vars.api_sig = MD5.hash( sig );
+			vars.api_key = StringUtil.trim(  _service.api_key );
+			
+			// [OvD] optional values, same order as the signature
+			if ( description != "" ) vars.description = description;
+			if ( is_family ) vars.is_family = ( is_family ? 1 : 0 );
+			if ( is_friend ) vars.is_friend = ( is_friend ? 1 : 0 );
+			if ( is_public ) vars.is_public = ( is_public ? 1 : 0 );
+			if ( tags != "" ) vars.tags = tags;
+			if ( title != "" ) vars.title = title;
+
+			var request:URLRequest = new URLRequest( UPLOAD_DEST );
+			request.data = vars;
+			request.method = URLRequestMethod.POST;
+			
+			trace(request.url)
+			
+			// [OvD] Flickr expects the filename parameter to be named 'photo'
+			fileReference.upload( request, "photo" );
+		}
 		
 	}	
 	
