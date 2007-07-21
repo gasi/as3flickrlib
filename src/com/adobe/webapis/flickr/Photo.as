@@ -75,7 +75,7 @@ package com.adobe.webapis.flickr {
 		 * Construct a new Photo instance
 		 *
 		 * @langversion ActionScript 3.0
-		 * @playerversion Flash 8.5
+		 * @playerversion Flash 9.0
 		 * @tiptext
 		 */
 		public function Photo() {
@@ -84,6 +84,25 @@ package com.adobe.webapis.flickr {
 			_tags = new Array();
 			_urls = new Array();
 		}	
+		
+		/**
+		 * The server farm id of the photo
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 9.0
+		 * @tiptext
+		 */		
+		public var farmId:int;
+		
+		/**
+		 * The secret necessary to retrieve original source of photos
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 9.0
+		 * @tiptext
+		 */			
+		public var originalSecret:String;
+		
 		
 		/**
 		 * The id of the photo

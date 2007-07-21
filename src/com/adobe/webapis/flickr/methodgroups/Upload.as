@@ -200,8 +200,6 @@ package com.adobe.webapis.flickr.methodgroups {
 			request.data = vars;
 			request.method = URLRequestMethod.POST;
 			
-			trace(request.url)
-			
 			// [OvD] Flickr expects the filename parameter to be named 'photo'
 			fileReference.upload( request, "photo" );
 		}
