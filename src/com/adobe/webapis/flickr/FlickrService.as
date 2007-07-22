@@ -40,6 +40,8 @@ package com.adobe.webapis.flickr {
 	import com.adobe.webapis.URLLoaderBase;
 	import com.adobe.webapis.flickr.methodgroups.*;
 	import flash.net.URLLoader;
+	import com.adobe.net.DynamicURLLoader;
+	import flash.events.ProgressEvent;
 	
 	/**
 	 * The FlickrService class abstracts the Flickr API found
@@ -393,14 +395,22 @@ package com.adobe.webapis.flickr {
 			return auth_url;
 		}
 		
+		private function onProgress(e:ProgressEvent):void
+		{
+			dispatchEvent(e);
+		}
+		
 		/**
 		 * Use our "internal" namespace to provide access to the URLLoader
 		 * from this class to the helper classes in the methodgroups package.
 		 * This keeps this method away from the public API since it is not meant
 		 * to be used by the public.
 		 */
-		flickrservice_internal function get urlLoader():URLLoader {
-			return getURLLoader();	
+		flickrservice_internal function get urlLoader():URLLoader
+		{
+			var loader:DynamicURLLoader = getURLLoader();
+				loader.addEventListener(ProgressEvent.PROGRESS, onProgress);
+			return loader;	
 		}
 		
 	}
