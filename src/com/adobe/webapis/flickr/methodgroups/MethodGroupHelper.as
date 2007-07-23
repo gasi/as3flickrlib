@@ -370,6 +370,8 @@ package com.adobe.webapis.flickr.methodgroups {
 				photo.ownerId = p.@owner.toString();
 				photo.secret = p.@secret.toString();
 				photo.server = parseInt( p.@server );
+				photo.latitude = p.@latitude;
+				photo.longitude = p.@longitude;
 				photo.farmId = parseInt( p.@farm );
 				photo.originalSecret = p.@originalsecret.toString();
 				photo.title = p.@title.toString();

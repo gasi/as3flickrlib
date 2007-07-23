@@ -102,6 +102,24 @@ package com.adobe.webapis.flickr {
 		 * @tiptext
 		 */			
 		public var originalSecret:String;
+	
+		/**
+		 * The latitude that the image was taken at.
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 9.0
+		 * @tiptext
+		 */			
+		public var latitude:String;
+		
+		/**
+		 * The longitude that the image was taken at.
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 9.0
+		 * @tiptext
+		 */			
+		public var longitude:String;
 		
 		
 		/**
