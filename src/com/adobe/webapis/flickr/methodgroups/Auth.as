@@ -133,7 +133,7 @@ package com.adobe.webapis.flickr.methodgroups {
 			// Let the Helper do the work to invoke the method
 			MethodGroupHelper.invokeMethod( _service, checkToken_result, 
 								   "flickr.auth.checkToken", 
-								   false,
+								   true,
 								   new NameValuePair( "auth_token", token ) );
 		}
 		
