@@ -149,6 +149,14 @@ package com.adobe.webapis.flickr.methodgroups {
 		 *		false otherwise
 		 * @param is_family (Optional) True if the photo should be marked for family
 		 *		access only, false otherwise
+		 * @param safety_level (Optional) The safety level to be applied to the uploaded 
+		 *		photoother) from the {SafetyLevel} class.
+		 * @param content_type (Optional) The content type of the uploaded photo (i.e.
+		 *		photo, screenshot, other) from the {ContentType} class.
+		 * @return false if the photo could not begin uploading (i.e. no authentication, 
+		 *		etc), true otherwise.
+		 * @see SafetyLevel
+		 * @see ContentType
 		 * @langversion ActionScript 3.0
 		 * @playerversion Flash 8.5
 		 * @tiptext
@@ -156,17 +164,31 @@ package com.adobe.webapis.flickr.methodgroups {
 	
 		//Upload isn't supported yet - need some player modifications first.
 
-	public function upload( fileReference:FileReference, 
+		public function upload( fileReference:FileReference, 
 								title:String = "",
 								description:String = "",
 								tags:String = "",
 								is_public:Boolean = false,
 								is_friend:Boolean = false,
-								is_family:Boolean = false ) : void {
+								is_family:Boolean = false,
+								safety_level:int = SafetyLevel.DEFAULT,
+								content_type:int = ContentType.DEFAULT,
+								hidden:Boolean = false) : Boolean {
+			
+			// Bail out if missing the necessary authentication parameters
+			if (_service.api_key == "" || _service.secret == "" || _service.token == "") {
+				return false;
+			}
+
+			// Bail out if application doesn't have authorisation to writ or delete from account
+			if (_service.permission != AuthPerm.WRITE && _service.permission != AuthPerm.DELETE) {
+			    return false;
+		    }
+
 			// The upload method requires signing, so go through
 			// the signature process
 
-			// [OvD] Flash sends both the 'Filename' and the 'Upload' values
+			// Flash sends both the 'Filename' and the 'Upload' values
 			// in the body of the POST request, so these are needed for the signature
 			// as well, otherwise Flickr returns a error code 96 'invalid signature'
 			var sig:String = StringUtil.trim( _service.secret );
@@ -175,24 +197,30 @@ package com.adobe.webapis.flickr.methodgroups {
 			sig += "api_key" + StringUtil.trim( _service.api_key );
 			sig += "auth_token" + StringUtil.trim( _service.token );		
 			
-			// [OvD] optional values, the order is irrelevant
+			// optional values, in alphabetical order as required
+			if ( content_type != ContentType.DEFAULT ) sig += "content_type" + content_type;
 			if ( description != "" ) sig += "description" + description;
+			if ( hidden ) sig += "hidden" + ( hidden ? 1 : 0 );
 			if ( is_family ) sig += "is_family" + ( is_family ? 1 : 0 );
 			if ( is_friend ) sig += "is_friend" + ( is_friend ? 1 : 0 );
 			if ( is_public ) sig += "is_public" + ( is_public ? 1 : 0 );
+			if ( safety_level != SafetyLevel.DEFAULT ) sig += "safety_level" + safety_level;
 			if ( tags != "" ) sig += "tags" + tags;
 			if ( title != "" ) sig += "title" + title;
 
 			var vars:URLVariables = new URLVariables();
 			vars.auth_token = StringUtil.trim( _service.token );
 			vars.api_sig = MD5.hash( sig );
-			vars.api_key = StringUtil.trim(  _service.api_key );
+			vars.api_key = StringUtil.trim( _service.api_key );
 			
-			// [OvD] optional values, same order as the signature
+			// optional values, in alphabetical order as required
+			if ( content_type != ContentType.DEFAULT ) vars.content_type = content_type;
 			if ( description != "" ) vars.description = description;
+			if ( hidden ) sig += vars.hidden = ( hidden ? 1 : 0 );
 			if ( is_family ) vars.is_family = ( is_family ? 1 : 0 );
 			if ( is_friend ) vars.is_friend = ( is_friend ? 1 : 0 );
 			if ( is_public ) vars.is_public = ( is_public ? 1 : 0 );
+			if ( safety_level != SafetyLevel.DEFAULT ) vars.safety_level = safety_level;
 			if ( tags != "" ) vars.tags = tags;
 			if ( title != "" ) vars.title = title;
 
@@ -200,10 +228,11 @@ package com.adobe.webapis.flickr.methodgroups {
 			request.data = vars;
 			request.method = URLRequestMethod.POST;
 			
-			// [OvD] Flickr expects the filename parameter to be named 'photo'
+			// Flickr expects the filename parameter to be named 'photo'
 			fileReference.upload( request, "photo" );
+			
+			// Indicate that the upload process started
+			return true;
 		}
-		
-	}	
-	
+	}
 }

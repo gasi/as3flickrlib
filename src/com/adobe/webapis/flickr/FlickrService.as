@@ -96,6 +96,7 @@ package com.adobe.webapis.flickr {
 		private var _tags:Tags;
 		private var _test:Test;
 		private var _urls:Urls;
+		private var _upload:Upload;
 		
 		public function FlickrService( api_key:String ) {
 			_api_key = api_key;
@@ -115,7 +116,7 @@ package com.adobe.webapis.flickr {
 			_tags = new Tags( this );
 			_test = new Test( this );
 			_urls = new Urls( this );
-			
+			_upload = new Upload( this );
 		}
 		
 		/**
@@ -365,6 +366,17 @@ package com.adobe.webapis.flickr {
 		 */
 		public function get urls():Urls {
 			return _urls;	
+		}
+		
+		/**
+		 * Provide read-only access to the Upload method group in the Flickr API
+		 *
+		 * @langversion ActionScript 3.0
+		 * @playerversion Flash 8.5
+		 * @tiptext
+		 */
+		public function get upload():Upload {
+			return _upload;	
 		}
 		
 		/**
