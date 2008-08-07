@@ -35,16 +35,18 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.adobe.webapis.flickr.methodgroups {
 	
-	import com.adobe.webapis.flickr.events.FlickrResultEvent;
-	import com.adobe.webapis.flickr.*;
 	import com.adobe.crypto.MD5;
-	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.FileReference;
-	import flash.net.URLRequest;
-	import flash.net.URLVariables;
 	import com.adobe.utils.StringUtil;
+	import com.adobe.webapis.flickr.*;
+
+	import com.adobe.webapis.flickr.events.FlickrResultEvent;
+	
+	import flash.events.Event;
+	import flash.net.FileReference;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 
 	/**
 	 * Broadcast as a result of the checkTickets method being called
@@ -161,7 +163,7 @@ package com.adobe.webapis.flickr.methodgroups {
 		 * @playerversion Flash 8.5
 		 * @tiptext
 		 */
-	
+		
 		//Upload isn't supported yet - need some player modifications first.
 
 		public function upload( fileReference:FileReference, 
@@ -171,8 +173,8 @@ package com.adobe.webapis.flickr.methodgroups {
 								is_public:Boolean = false,
 								is_friend:Boolean = false,
 								is_family:Boolean = false,
-								safety_level:int = SafetyLevel.DEFAULT,
-								content_type:int = ContentType.DEFAULT,
+								safety_level:int = 0,
+								content_type:int = 0,
 								hidden:Boolean = false) : Boolean {
 			
 			// Bail out if missing the necessary authentication parameters
