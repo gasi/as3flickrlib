@@ -38,6 +38,7 @@ package com.adobe.webapis.flickr {
 	/**
 	 * User is a ValueObject for the Flickr API.
 	 */
+	[RemoteClass(alias="com.adobe.webapis.flickr.User")]
 	public class User {
 		
 		private var _nsid:String;

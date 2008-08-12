@@ -35,8 +35,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.adobe.webapis.flickr.methodgroups {
 	
-	import com.adobe.webapis.flickr.events.FlickrResultEvent;
 	import com.adobe.webapis.flickr.*;
+	import com.adobe.webapis.flickr.events.FlickrResultEvent;
+	import com.adobe.webapis.flickr.methodgroups.helpers.PhotoSearchParams;
+	
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	
@@ -1092,6 +1094,40 @@ package com.adobe.webapis.flickr.methodgroups {
 												  result );
 		}
 		
+		public function searchWithParamHelper(p:PhotoSearchParams):void
+		{
+			search(p.user_id,
+					p.tags,
+					p.tag_mode,
+					p.text,
+					p.min_upload_date,
+					p.max_upload_date,
+					p.min_taken_date,
+					p.max_taken_date,
+					p.license,
+					p.sort,
+					p.privacy_filter,
+					p.bbox,
+					p.accuracy,
+					p.safe_search,
+					p.content_type,
+					p.machine_tags,
+					p.machine_tag_mode,
+					p.group_id,
+					p.contacts,
+					p.woe_id,
+					p.place_id,
+					p.media,
+					p.has_geo,
+					p.lat,
+					p.lon,
+					p.radius,
+					p.radius_units,
+					p.extras,
+					p.per_page,
+					p.page);					
+		}
+		
 		/**
 		 * Return a list of photos matching some criteria. Only photos visible to 
 		 * the calling user will be returned. To return private or semi-private 
@@ -1136,10 +1172,36 @@ package com.adobe.webapis.flickr.methodgroups {
 		 * @playerversion Flash 8.5
 		 * @tiptext
 		 */
-		public function search( user_id:String = "", tags:String = "", tag_mode:String = "any", 
-								text:String = "", min_upload_date:Date = null, max_upload_date:Date = null, 
-								min_taken_date:Date = null, max_taken_date:Date = null, license:Number = -1,
-								extras:String = "", per_page:Number = 100, page:Number = 1, sort:String = "date-posted-desc" ):void {
+		public function search( user_id:String = "",
+								tags:String = "",
+								tag_mode:String = "any", 
+								text:String = "",
+								min_upload_date:Date = null,
+								max_upload_date:Date = null, 
+								min_taken_date:Date = null,
+								max_taken_date:Date = null,
+								license:Number = -1,
+								sort:String = "date-posted-desc",
+								privacy_filter:int = -1,
+								bbox:String = "",
+								accuracy:int = -1,
+								safe_search:int = -1,
+								content_type:int = -1,
+								machine_tags:String = "",
+								machine_tag_mode:String = "",
+								group_id:String = "",
+								contacts:String = "",
+								woe_id:String = "",
+								place_id:String = "",
+								media:String = "",
+								has_geo:Boolean = false,//true, false or all
+								lat:String = "",
+								lon:String = "",
+								radius:Number = -1,
+								radius_units:Number = -1,
+								extras:String = "",
+								per_page:Number = 100,
+								page:Number = 1):void {
 			
 			
 			// Let the Helper do the work to invoke the method			
@@ -1156,10 +1218,31 @@ package com.adobe.webapis.flickr.methodgroups {
 								   new NameValuePair( "min_taken_date", min_taken_date == null ? "" : min_taken_date.valueOf().toString() ),
 								   new NameValuePair( "max_taken_date", max_taken_date == null ? "" : max_taken_date.valueOf().toString() ),
 								   new NameValuePair( "license", license == -1 ? "" : license.toString() ),
+								   new NameValuePair( "sort", sort ),
+								   new NameValuePair( "privacy_filter", privacy_filter == -1 ? "" : privacy_filter.toString() ),
+								   new NameValuePair( "bbox", bbox ),
+								   new NameValuePair( "accuracy", accuracy == -1 ? "" : accuracy.toString() ),
+								   new NameValuePair( "safe_search", safe_search == -1 ? "" : safe_search.toString() ),
+								   new NameValuePair( "content_type", content_type == -1 ? "" : content_type.toString() ),
+								   new NameValuePair( "machine_tags", machine_tags ),
+								   new NameValuePair( "machine_tag_mode", machine_tag_mode ),
+								   
+								   new NameValuePair( "group_id", group_id ),
+								   new NameValuePair( "contacts", contacts ),
+								   new NameValuePair( "woe_id", woe_id ),
+								   new NameValuePair( "place_id", place_id ),
+								   new NameValuePair( "media", media ),
+								   
+								   new NameValuePair( "has_geo", (has_geo)?"true":"" ),
+								   new NameValuePair( "lat", lat ),
+								   new NameValuePair( "lon", lon ),
+								   new NameValuePair( "radius", radius == -1 ? "" : radius.toString() ),
+								   new NameValuePair( "radius_units", radius_units == -1 ? "" : radius_units.toString() ),
+
 								   new NameValuePair( "extras", extras ),
 								   new NameValuePair( "per_page", per_page.toString() ),
-								   new NameValuePair( "page", page.toString() ),
-								   new NameValuePair( "sort", sort ) );
+								   new NameValuePair( "page", page.toString() )
+								   );
 		}
 		
 		/**
