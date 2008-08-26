@@ -57,6 +57,10 @@ package com.adobe.webapis.flickr {
 		private var _photoCount:int;
 		private var _tags:Array;
 		
+		
+		
+		public var iconFarm:int;
+		
 		/**
 		 * Construct a new User instance
 		 *

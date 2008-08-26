@@ -31,13 +31,12 @@ package com.adobe.webapis.flickr.methodgroups {
 	
 	import com.adobe.crypto.MD5;
 	import com.adobe.webapis.flickr.*;
-	import com.adobe.webapis.flickr.flickrservice_internal;
 	import com.adobe.webapis.flickr.events.*;
+	
+	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	import flash.events.Event;
 	import flash.xml.*;
-	import flash.geom.Rectangle;
 	
 	/**
 	 * Contains helper functions for the method group classes that are
@@ -562,6 +561,7 @@ package com.adobe.webapis.flickr.methodgroups {
 			user.isAdmin = xml.person.@isadmin.toString() == "1";
 			user.isPro = xml.person.@ispro.toString() == "1";
 			user.iconServer = parseInt( xml.person.@iconserver );
+			user.iconFarm = parseInt( xml.person.@iconfarm );
 			user.username = xml.person.username.toString();
 			user.fullname = xml.person.realname.toString();
 			user.mboxSha1Sum = xml.person.mbox_sha1sum.toString();
@@ -671,6 +671,7 @@ package com.adobe.webapis.flickr.methodgroups {
 			var photo:Photo = new Photo();
 			
 			photo.id = xml.photo.@id.toString();
+			photo.farmId = parseInt(xml.photo.@farm);
 			photo.secret = xml.photo.@secret.toString();
 			if ( xml.photo.@server.toString() ) {
 				photo.server = parseInt( xml.photo.@server );
@@ -854,6 +855,7 @@ package com.adobe.webapis.flickr.methodgroups {
 				photo.secret = p.@secret.toString();
 				photo.title = p.@title.toString();
 				photo.server = parseInt( p.@server );
+				photo.farmId = parseInt(p.@farm);
 				
 				photoSet.photos.push( photo );	
 			}
