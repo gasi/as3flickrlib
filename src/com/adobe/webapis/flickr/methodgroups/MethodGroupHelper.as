@@ -609,6 +609,7 @@ package com.adobe.webapis.flickr.methodgroups {
 		 	for each ( var p:XML in xml.photos.photo ) {
 				var photo:Photo = new Photo();
 				photo.id = p.@id.toString();
+				photo.farmId = parseInt(p.@farm);
 				photo.ownerId = p.@owner.toString();
 				photo.secret = p.@secret.toString();
 				photo.server = parseInt( p.@server );
