@@ -62,6 +62,7 @@ package com.adobe.webapis.flickr {
 		private var _canComment:int;
 		private var _canAddMeta:int;
 		private var _notes:Array;
+        private var _machineTags:Array;
 		private var _tags:Array;
 		private var _urls:Array;
 		
@@ -75,6 +76,7 @@ package com.adobe.webapis.flickr {
 		public function Photo() {
 			_exifs = new Array();
 			_notes = new Array();
+            _machineTags = new Array();
 			_tags = new Array();
 			_urls = new Array();
 		}	
@@ -537,6 +539,21 @@ package com.adobe.webapis.flickr {
 		public function set notes( value:Array ):void {
 			_notes = value;
 		}
+        
+        /**
+         * The machine tags for the photo - array of PhotoMachineTag
+         *
+         * @langversion ActionScript 3.0
+         * @playerversion Flash 8.5
+         * @tiptext
+         */
+        public function get machineTags():Array {
+            return _machineTags;
+        }
+        
+        public function set machineTags( value:Array ):void {
+            _machineTags = value;
+        }
 		
 		/**
 		 * The tags for the photo - array of PhotoTag

@@ -382,7 +382,15 @@ package com.adobe.webapis.flickr.methodgroups {
                     photo.iconServer = parseInt( p.@iconserver );
                 }
                 photo.originalFormat = p.@originalformat.toString();
+                // Machine tags
+                if ( p.@machine_tags ) {
+                    var rawMachineTags : Array = p.@machine_tags.toString().split(" ");
 
+                    for each ( var rawMachineTag:String in rawMachineTags ) {
+                        var machineTag:PhotoMachineTag = PhotoMachineTag.fromRaw( rawMachineTag );
+                        photo.machineTags.push( machineTag );
+                    }
+                }
                 photos.push( photo );
             }
 
